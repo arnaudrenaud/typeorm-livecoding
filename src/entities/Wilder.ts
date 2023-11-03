@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import School from "./School";
 
 @Entity()
 class Wilder extends BaseEntity {
@@ -11,7 +12,10 @@ class Wilder extends BaseEntity {
   @Column()
   lastName!: string;
 
-  constructor(args: { id: string; firstName: string; lastName: string }) {
+  @ManyToOne(() => School, (school) => school.wilders)
+  school!: School;
+
+  constructor(args?: { id: string; firstName: string; lastName: string }) {
     super();
 
     if (args) {

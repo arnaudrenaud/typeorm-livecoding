@@ -1,11 +1,12 @@
 import { DataSource } from "typeorm";
 import Wilder from "./entities/Wilder";
+import School from "./entities/School";
 
 const main = async () => {
   const dataSource = new DataSource({
     type: "sqlite",
     database: "db.sqlite",
-    entities: [Wilder],
+    entities: [Wilder, School],
     synchronize: true,
   });
 
@@ -24,6 +25,30 @@ const main = async () => {
   console.log({ me });
 
   await me.save();
+
+  const mySchool = new School({ id: "PARIS", city: "Paris" });
+  console.log({ mySchool });
+
+  await mySchool.save();
+
+  me.school = mySchool;
+  await me.save();
+
+  const friend = new Wilder({ id: "5678", firstName: "Bon", lastName: "Ami" });
+  friend.school = mySchool;
+  await friend.save();
+
+  await mySchool.reload();
+  console.dir({ mySchool }, { depth: null });
+
+  console.log(`Wilders count in Paris: ${await mySchool.wildersCount}`);
+
+  await mySchool.makeInactive();
+
+  console.log("All active schools:");
+  console.dir(await School.getAllActiveSchools(), {
+    depth: null,
+  });
 };
 
 main();
