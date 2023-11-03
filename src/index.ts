@@ -1,3 +1,8 @@
-const greeting: string = "salut";
+import Wilder from "./entities/Wilder";
 
-console.log(`${greeting} tout le monde`);
+const me = new Wilder({ id: "1234", firstName: "Arnaud", lastName: "Renaud" });
+console.log({ me, myFullName: me.fullName });
+
+console.log("Changing last name…");
+me.newLastName = "Neuf";
+console.log({ me });
