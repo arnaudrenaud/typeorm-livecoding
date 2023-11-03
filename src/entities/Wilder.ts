@@ -1,20 +1,24 @@
-class Wilder {
-  readonly id: string;
-  firstName: string;
-  lastName: string;
+import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
-  constructor({
-    id,
-    firstName,
-    lastName,
-  }: {
-    id: string;
-    firstName: string;
-    lastName: string;
-  }) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
+@Entity()
+class Wilder extends BaseEntity {
+  @PrimaryColumn()
+  readonly id!: string;
+
+  @Column()
+  firstName!: string;
+
+  @Column()
+  lastName!: string;
+
+  constructor(args: { id: string; firstName: string; lastName: string }) {
+    super();
+
+    if (args) {
+      this.id = args.id;
+      this.firstName = args.firstName;
+      this.lastName = args.lastName;
+    }
   }
 
   get fullName() {
